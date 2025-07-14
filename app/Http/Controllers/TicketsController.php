@@ -265,7 +265,7 @@ class TicketsController extends HelpdeskController
                            'ticket' => $ticket,
                            // 'attachments' => Attachment::where('ticket_id', $ticket->id)->orderby('created_at')->get(),
                            'attachments' => $ticket->attachments,
-                           'woattachments' => Attachment::whereIn('ticketable_id', $ticket->workOrders->lists('id')->toArray())->where('ticketable_type', 'App\WorkOrder')->get(),
+                           'woattachments' => Attachment::whereIn('ticketable_id', $ticket->workOrders->lists('id')->toArray())->where('ticketable_type', \App\WorkOrder::class)->get(),
                            'conversations' => $ticket->conversations,
                            'conversations_private' => $ticket->conversationsPrivate,
                            'placeholder' => Placeholder::orderByRaw('newid()')->take(1)->first(),

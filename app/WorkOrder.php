@@ -49,12 +49,12 @@ class WorkOrder extends BaseModel
 
     public function assignedTo()
     {
-        return $this->belongsTo('App\User', 'assigned_to');
+        return $this->belongsTo(\App\User::class, 'assigned_to');
     }
 
     public function createdBy()
     {
-        return $this->belongsTo('App\User', 'created_by');
+        return $this->belongsTo(\App\User::class, 'created_by');
     }
 
     public function ticketable()
@@ -64,6 +64,6 @@ class WorkOrder extends BaseModel
 
     public function attachments()
     {
-        return $this->morphMany('App\Attachment', 'ticketable');
+        return $this->morphMany(\App\Attachment::class, 'ticketable');
     }
 }

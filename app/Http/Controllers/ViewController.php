@@ -33,11 +33,11 @@ class ViewController extends Controller
         $sortBy = ($request->get('sortBy') != null ? $request->get('sortBy') : ($view->sort_by != null ? $view->sort_by : 'ID'));
         $model = '';
         if ($view->query_type == 'ticket') {
-            $model = 'App\TicketView';
+            $model = \App\TicketView::class;
         } elseif ($view->query_type == 'work_order') {
-            $model = 'App\TicketWorkOrderView';
+            $model = \App\TicketWorkOrderView::class;
         } elseif ($view->query_type == 'change_control') {
-            $model = 'App\ChangeTicketView';
+            $model = \App\ChangeTicketView::class;
         }
         $where = $view->where_clause;
         if (strpos($where, 'today+')) {

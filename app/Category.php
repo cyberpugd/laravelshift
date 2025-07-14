@@ -10,15 +10,15 @@ class Category extends BaseModel
      protected $fillable = ['name'];
      
      public function subcategories() {
-          return $this->hasMany('App\Subcategory', 'category_id');
+          return $this->hasMany(\App\Subcategory::class, 'category_id');
      }
 
      public function subcategoriesOrdered() {
-          return $this->hasMany('App\Subcategory', 'category_id')->where('active', 1)->orderBy('name');
+          return $this->hasMany(\App\Subcategory::class, 'category_id')->where('active', 1)->orderBy('name');
      }
 
      public function tickets() {
-          return $this->hasMany('App\ticket', 'category_id');
+          return $this->hasMany(\App\ticket::class, 'category_id');
      }
 
      public function identifiableName()

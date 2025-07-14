@@ -9,7 +9,7 @@ class Urgency extends Model
     protected $table = 'urgency';
 
     public function tickets() {
-          return $this->hasMany('App\ticket', 'urgency_id');
+          return $this->hasMany(\App\ticket::class, 'urgency_id');
     }
 
     public function identifiableName()

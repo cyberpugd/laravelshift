@@ -12,11 +12,11 @@ class WOTemplateDetail extends Model
     ];
     public function template()
     {
-         return $this->belongsTo('App\WorkOrderTemplate', 'template_id');
+         return $this->belongsTo(\App\WorkOrderTemplate::class, 'template_id');
     }
 
     public function assignedTo()
     {
-         return $this->belongsTo('App\User', 'assigned_to');
+         return $this->belongsTo(\App\User::class, 'assigned_to');
     }
 }

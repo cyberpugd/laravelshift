@@ -51,32 +51,32 @@ class User extends Authenticatable
 
     public function workOrdersAssigned()
     {
-        return $this->hasMany('App\WorkOrder', 'assigned_to', 'id');
+        return $this->hasMany(\App\WorkOrder::class, 'assigned_to', 'id');
     }
 
     public function workOrdersCreated()
     {
-        return $this->hasMany('App\WorkOrder', 'created_by', 'id');
+        return $this->hasMany(\App\WorkOrder::class, 'created_by', 'id');
     }
 
     public function workOrderTemplates()
     {
-        return $this->hasMany('App\WorkOrderTemplate', 'owner_id', 'id');
+        return $this->hasMany(\App\WorkOrderTemplate::class, 'owner_id', 'id');
     }
 
     public function sharedWorkOrderTemplates()
     {
-        return $this->belongsToMany('App\WorkOrderTemplate');
+        return $this->belongsToMany(\App\WorkOrderTemplate::class);
     }
 
     public function subcategoriesCreated()
     {
-        return $this->hasMany('App\Subcategory', 'created_by', 'id');
+        return $this->hasMany(\App\Subcategory::class, 'created_by', 'id');
     }
 
     public function roles()
     {
-        return $this->belongsToMany('App\Role');
+        return $this->belongsToMany(\App\Role::class);
     }
 
     public function assignRole($roles)
@@ -94,27 +94,27 @@ class User extends Authenticatable
 
     public function location()
     {
-        return $this->belongsTo('App\Location');
+        return $this->belongsTo(\App\Location::class);
     }
 
     public function forms()
     {
-        return $this->belongsToMany('App\UserForm', 'user_user_form', 'user_id', 'form_id');
+        return $this->belongsToMany(\App\UserForm::class, 'user_user_form', 'user_id', 'form_id');
     }
 
     public function views()
     {
-        return $this->hasMany('App\UserView')->orderBy('name');
+        return $this->hasMany(\App\UserView::class)->orderBy('name');
     }
 
     public function queries()
     {
-        return $this->hasMany('App\UserQueries')->orderBy('name');
+        return $this->hasMany(\App\UserQueries::class)->orderBy('name');
     }
 
     public function teams()
     {
-        return $this->belongsToMany('App\Team');
+        return $this->belongsToMany(\App\Team::class);
     }
 
     public function hasTeam($team)
@@ -133,11 +133,11 @@ class User extends Authenticatable
 
     public function ccTemplates()
     {
-        return $this->belongsToMany('App\ChangeTicketTemplate');
+        return $this->belongsToMany(\App\ChangeTicketTemplate::class);
     }
 
     public function surveyGroup()
     {
-        return $this->belongsTo('App\SurveyGroup');
+        return $this->belongsTo(\App\SurveyGroup::class);
     }
 }

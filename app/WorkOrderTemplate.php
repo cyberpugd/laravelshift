@@ -11,16 +11,16 @@ class WorkOrderTemplate extends Model
 
     public function user()
     {
-         return $this->belongsTo('App\User', 'owner_id');
+         return $this->belongsTo(\App\User::class, 'owner_id');
     }
 
      public function templateDetail()
     {
-        return $this->hasMany('App\WOTemplateDetail', 'template_id');
+        return $this->hasMany(\App\WOTemplateDetail::class, 'template_id');
     }
 
     public function users()
     {
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany(\App\User::class);
     }
 }

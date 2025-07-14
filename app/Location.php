@@ -15,12 +15,12 @@ class Location extends BaseModel
 
     public function users()
     {
-        return $this->hasMany('App\User');
+        return $this->hasMany(\App\User::class);
     }
 
     public function holidays()
     {
-        return $this->belongsToMany('App\Holiday');
+        return $this->belongsToMany(\App\Holiday::class);
     }
 
     public function syncHolidays($holidays)

@@ -16,11 +16,11 @@ class UserView extends Model
      ];
     public function user()
     {
-         return $this->belongsTo('App\User');
+         return $this->belongsTo(\App\User::class);
     }
 
     public function filters()
     {
-         return $this->hasMany('App\FilterCriteria', 'view_id');
+         return $this->hasMany(\App\FilterCriteria::class, 'view_id');
     }
 }

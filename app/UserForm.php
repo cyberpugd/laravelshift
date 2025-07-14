@@ -24,27 +24,27 @@ class UserForm extends BaseModel
 
     public function fields()
     {
-        return $this->hasMany('App\FormColumn', 'form_id');
+        return $this->hasMany(\App\FormColumn::class, 'form_id');
     }
 
     public function users()
     {
-          return $this->belongsToMany('App\User', 'user_user_form', 'form_id', 'user_id');
+          return $this->belongsToMany(\App\User::class, 'user_user_form', 'form_id', 'user_id');
     }
 
     public function share_with()
     {
-          return $this->belongsToMany('App\User', 'user_user_form', 'form_id', 'user_id');
+          return $this->belongsToMany(\App\User::class, 'user_user_form', 'form_id', 'user_id');
     }
 
     public function owner()
     {
-         return $this->belongsTo('App\User', 'owner_id');
+         return $this->belongsTo(\App\User::class, 'owner_id');
     }
 
     public function last_modified()
     {
-         return $this->belongsTo('App\User', 'last_modified_by');
+         return $this->belongsTo(\App\User::class, 'last_modified_by');
     }
 
         public function getUpdatedAtAttribute($value)
