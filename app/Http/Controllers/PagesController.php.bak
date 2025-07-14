@@ -1,0 +1,162 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use Exception;
+use App\Http\Requests;
+use App\User;
+use Adldap;
+use Auth;
+use App\Role;
+use App\p2helpdesk\Utilities\Timezones;
+
+class PagesController extends HelpdeskController
+{
+    public function login() {
+
+    	$data = [
+    		'adid' => $_SERVER['AUTH_USER']
+    	];
+
+    	return view('layouts.splash', $data);
+
+    }
+
+/* public function postLogin(Timezones $timezone) {
+    $adId = $_SERVER['AUTH_USER'];
+
+    // Check if the user already exists in the local database
+    $check = User::where(['ad_id' => $adId])->first();
+
+    // If user doesn't exist, create account
+    if (!$check) {
+        // Get the user from Active Directory
+        $samAccount = substr($adId, 6);
+        $adUsers = Adldap::getProvider('default')->search()->users()->where('samaccountname', '=', $samAccount)->get();
+
+        // AD user not found
+        if ($adUsers->isEmpty()) {
+            flash()->basicWarningStay('Active Directory user not found.');
+            return redirect('/');
+        }
+
+        $adUser = $adUsers->first();
+
+        // Safely retrieve location, fallback to 'Denver'
+        $locationName = $adUser['l'][0] ?? 'Denver';
+        $location = $timezone->mapToLocation($locationName);
+
+        // Create the new user safely using AD info
+        $user = User::create([
+            'ad_id' => strtolower($adId),
+            'first_name' => $adUser['givenname'][0] ?? '',
+            'last_name' => $adUser['sn'][0] ?? '',
+            'email' => strtolower($adUser['mail'][0] ?? ''),
+            'sip' => strtolower($adUser['userprincipalname'][0] ?? ''),
+            'phone_number' => $adUser['telephonenumber'][0] ?? '',
+            'location_id' => $location->id,
+            'active' => 1,
+        ]);
+
+        // Set timezone from location relationship
+        $user->timezone = $user->location->timezone;
+        $user->save();
+
+        // Assign a default role (change role ID before going live)
+        $user->assignRole([3]);
+
+    } else {
+        $user = $check; // User already exists
+    }
+
+    // Check if user is active
+    if (!$user->active) {
+        flash()->basicWarningStay('You do not have an active account, please contact your administrator.');
+        return redirect('/');
+    }
+
+    // Log the user in to the Laravel app
+    Auth::login($user);
+
+    // Log user roles for debugging (temporary, can be removed later)
+    \Log::info("User roles: " . json_encode($user->roles->pluck('label')));
+    \Log::info("Has 'agent_portal' role? " . ($user->hasRole('agent_portal') ? 'yes' : 'no'));
+
+    // Redirect user based on permission logic
+    if (!deniedPermission('agent_portal')) {
+        return redirect()->intended('dashboard');
+    } else {
+        return redirect()->intended('/helpdesk/dashboard');
+    }
+} */
+
+	public function postLogin(Timezones $timezone) {
+	 	//dd($_SERVER);
+    	//check of a user exists in the database
+	   	$check = User::where(['ad_id' => $_SERVER['AUTH_USER']])->get();
+		//dd($check);
+	   	//if user doesn't exist, create account for them
+        if($check->isEmpty()) {
+            //Get the user from AD
+			$user = Adldap::getProvider('default')->search()->users()->where('samaccountname', '=', substr($_SERVER['AUTH_USER'], 6))->get();
+			
+                                //Get the location id of the user based on the city. If location doesn't exist it will default to Denver.
+                                $location =  $timezone->mapToLocation($user[0]['l'][0]);
+                                //dd($location);
+                                // Create the user in the database
+	   		$user = User::create([
+	   			'ad_id' => strtolower($_SERVER['AUTH_USER']),
+	   			'first_name' => $user[0]['givenname'][0],
+	   			'last_name' => $user[0]['sn'][0],
+	   			'email' => strtolower($user[0]['mail'][0]),
+                                             'sip' => strtolower($user[0]['userprincipalname'][0]),
+                                             'phone_number' => $user[0]['telephonenumber'][0],
+                                             'location_id' => $location->id,
+	   			'active' => 1
+	   		]);
+                              $user->timezone = $user->location->timezone;
+                              $user->save();
+                              // Assign new users the admin role. Need to change this to the user role before going live
+                              $user->assignRole([3]);
+	   	}  
+        //dd($user);
+	   	//Find the user in the database
+	   	try {
+	   		$user = User::where(['ad_id' => $_SERVER['AUTH_USER'], 'active' => 1])->firstOrFail();
+	   	} catch(Exception $e)
+	   	{
+	   		flash()->basicWarningStay('You do not have an active account, please contact your administrator.');
+	   		return redirect('/');
+	   	}
+      	//Login the user to the application
+	   	Auth::login($user);
+
+        //\Log::info("User roles: " . json_encode($user->roles->pluck('label')));
+        //\Log::info("Has 'agent_portal' role? " . ($user->hasRole('agent_portal') ? 'yes' : 'no'));
+
+	   	//Redirect to Dashboard page
+        if(!deniedPermission('agent_portal')) {
+	   	     return redirect()->intended('dashboard');
+        } else {
+             return redirect()->intended('/helpdesk/dashboard');
+        } 
+		// Do this to test:
+		//return redirect('/helpdesk/dashboard');  // or any static, public page
+    }
+
+
+    public function logout(Request $request)
+    {
+    	Auth::logout();
+        return redirect('/');
+    }
+
+          public function activeDirectory()
+          {
+               //Get the user from AD
+               $user = Adldap::getProvider('default')->search()->users()->where('samaccountname', '=', substr($_SERVER['AUTH_USER'], 6))->get();
+               //dd($user);
+          }
+}

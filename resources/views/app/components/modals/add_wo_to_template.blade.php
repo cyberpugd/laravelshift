@@ -1,0 +1,53 @@
+<div id="add_wo_to_template" class="modal fade" role="dialog">
+     <div class="modal-dialog">
+          <div class="modal-content">
+               <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Add Work Order</h4>
+               </div>
+               <form method="POST" action="/user-settings/wo-detail/create">
+                    {!! csrf_field() !!}
+                         <div class="modal-body">
+                         <input id="templateId" type="hidden" name="template_id" value=""> 
+                              <div class="form-group">
+                                   <label for="subject">Subject</label>
+                                   <input id="subject" type="text" name="subject" class="form-control" value="" autofocus required>
+                              </div>
+                              <div class="form-group">
+                                   <label for="work_requested">Work Requested</label>
+                                   <textarea name="work_requested" class="form-control" value="" rows="10" required></textarea>
+                              </div>
+                              <div class="form-group">
+                                   <label for="assigned_to">Assigned To</label><br>
+                                    <select name="assigned_to" class="selectpicker" data-live-search="true" data-size="15" title="Assigned To" required autofocus>
+                                        @foreach($users as $user)
+                                             @if($user->can('be_assigned_ticket'))
+                                                  <option value="{{$user->id}}" data-tokens="{{$user->first_name}} {{$user->last_name}}" @if(Auth::user()->id == $user->id) selected @endif>{{$user->last_name}}, {{$user->first_name}}</option>
+                                             @endif
+                                        @endforeach
+                                   </select> 
+                              </div>
+                              <div class="form-group">
+                                   <label for="due_date">Due On</label>
+                                   <div class='input-group date col-md-5'>
+                                        <select name="due_in" class="selectpicker" data-size="15" required>
+                                                       <option value="-1">Ticket Due Date</option>
+                                             @for($i = 0; $i <= 20; $i++)
+                                                  @if($i == 0)
+                                                       <option value="{{$i}}">Ticket Create Date</option>
+                                                  @else
+                                                       <option value="{{$i}}">{{$i}}@if($i > 1) days after ticket created @else day after ticket created @endif</option>
+                                                  @endif
+                                             @endfor
+                                        </select>
+                                    </div>
+                              </div>
+                         </div>
+                         <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                              <button type="submit" class="btn btn-primary">Create Work Order</button>
+                         </div>
+               </form>
+          </div><!-- /.modal-content -->
+     </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
