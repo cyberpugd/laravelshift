@@ -63,57 +63,57 @@ class Ticket extends BaseModel
 
     public function createdBy()
     {
-    	return $this->belongsTo('App\User', 'created_by');
+    	return $this->belongsTo(\App\User::class, 'created_by');
     }
 
     public function attachments()
     {
-     return $this->morphMany('App\Attachment', 'ticketable');
+     return $this->morphMany(\App\Attachment::class, 'ticketable');
     }
 
     public function workOrders()
     {
-     return $this->morphMany('App\WorkOrder', 'ticketable');
+     return $this->morphMany(\App\WorkOrder::class, 'ticketable');
     }
 
     public function category()
     {
-     return $this->belongsTo('App\Category', 'category_id');
+     return $this->belongsTo(\App\Category::class, 'category_id');
     }
 
     public function subcategory()
     {
-     return $this->belongsTo('App\Subcategory', 'sub_category_id');
+     return $this->belongsTo(\App\Subcategory::class, 'sub_category_id');
     }
 
     public function urgency()
     {
-          return $this->belongsTo('App\Urgency', 'urgency_id');
+          return $this->belongsTo(\App\Urgency::class, 'urgency_id');
     }
 
     public function conversations()
     {
-         return $this->hasMany('App\Conversation', 'ticket_id')->orderBy('created_at', 'desc');
+         return $this->hasMany(\App\Conversation::class, 'ticket_id')->orderBy('created_at', 'desc');
     }
 
      public function conversationsPrivate()
     {
-         return $this->hasMany('App\ConversationPrivate', 'ticket_id')->orderBy('created_at', 'desc');
+         return $this->hasMany(\App\ConversationPrivate::class, 'ticket_id')->orderBy('created_at', 'desc');
     }
 
     public function assignedTo()
     {
-         return $this->belongsTo('App\User', 'agent_id');
+         return $this->belongsTo(\App\User::class, 'agent_id');
     }
 
     public function agent()
     {
-         return $this->belongsTo('App\User', 'agent_id');
+         return $this->belongsTo(\App\User::class, 'agent_id');
     }
 
     public function assignedToSearch()
     {     
-         return $this->belongsTo('App\AssignedToSearch', 'agent_id');
+         return $this->belongsTo(\App\AssignedToSearch::class, 'agent_id');
     }
 
 

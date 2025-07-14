@@ -14,16 +14,16 @@ class Team extends Model
 
     public function subcategories()
     {
-         return $this->belongsToMany('App\Subcategory');
+         return $this->belongsToMany(\App\Subcategory::class);
     }
 
      public function subcategoriesOrdered() {
-          return $this->belongsToMany('App\Subcategory')->where('active', 1)->orderBy('name');
+          return $this->belongsToMany(\App\Subcategory::class)->where('active', 1)->orderBy('name');
      }
 
     public function users()
     {
-         return $this->belongsToMany('App\User')->orderBy('first_name');
+         return $this->belongsToMany(\App\User::class)->orderBy('first_name');
     }
 
     public function syncSubcategories($subcategories)

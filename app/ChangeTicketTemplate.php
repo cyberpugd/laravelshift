@@ -12,12 +12,12 @@ class ChangeTicketTemplate extends Model
 
     public function sharedWith()
     {
-         return $this->belongsToMany('App\User');
+         return $this->belongsToMany(\App\User::class);
     }
 
     public function owner()
     {
-         return $this->belongsTo('App\User', 'owner_id');
+         return $this->belongsTo(\App\User::class, 'owner_id');
     }
 
     public function setStartDateAttribute($value)

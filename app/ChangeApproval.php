@@ -15,11 +15,11 @@ class ChangeApproval extends BaseModel
 
     public function changeTicket()
     {
-         return $this->belongsTo('App\ChangeTicket');
+         return $this->belongsTo(\App\ChangeTicket::class);
     }
 
     public function approvedBy()
     {
-         return $this->belongsTo('App\User', 'approver');
+         return $this->belongsTo(\App\User::class, 'approver');
     }
 }

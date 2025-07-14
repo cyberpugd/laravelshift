@@ -11,6 +11,6 @@ class Holiday extends BaseModel
     protected $hidden = ['pivot'];
     public function location()
     {
-        return $this->belongsToMany('App\Location');
+        return $this->belongsToMany(\App\Location::class);
     }
 }

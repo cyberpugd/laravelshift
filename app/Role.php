@@ -9,7 +9,7 @@ class Role extends BaseModel
      protected $fillable = ['name', 'label'];
     public function permissions()
     {
-         return $this->belongsToMany('App\Permission');
+         return $this->belongsToMany(\App\Permission::class);
     }
 
     public function givePermissionTo(Permission $permission)

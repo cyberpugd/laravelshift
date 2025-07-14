@@ -11,6 +11,6 @@ class FilterCriteria extends BaseModel
 
     public function view()
     {
-         return $this->belongsTo('App\UserView');
+         return $this->belongsTo(\App\UserView::class);
     }
 }

@@ -8,11 +8,11 @@ class Subcategory extends BaseModel
 {
      protected $fillable = ['category_id', 'name', 'description', 'tags',  'location_matters', 'created_by', 'active'];
     public function category() {
-          return $this->belongsTo('App\Category');
+          return $this->belongsTo(\App\Category::class);
     }
 
     public function tickets() {
-          return $this->hasMany('App\ticket', 'sub_category_id');
+          return $this->hasMany(\App\ticket::class, 'sub_category_id');
     }
 
     public function identifiableName()
@@ -21,12 +21,12 @@ class Subcategory extends BaseModel
     }
     public function createdBy()
     {
-          return $this->belongsTo('App\User', 'created_by');
+          return $this->belongsTo(\App\User::class, 'created_by');
     }
 
     public function teams()
     {
-         return $this->belongsToMany('App\Team');
+         return $this->belongsToMany(\App\Team::class);
     }
 
     public function syncTeams($teams)

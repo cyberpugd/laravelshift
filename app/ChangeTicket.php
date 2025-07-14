@@ -82,22 +82,22 @@ class ChangeTicket extends BaseModel
 
     public function workOrders()
     {
-        return $this->morphMany('App\WorkOrder', 'ticketable');
+        return $this->morphMany(\App\WorkOrder::class, 'ticketable');
     }
 
     public function attachments()
     {
-        return $this->morphMany('App\Attachment', 'ticketable');
+        return $this->morphMany(\App\Attachment::class, 'ticketable');
     }
 
     public function itApprover()
     {
-        return $this->belongsTo('App\User', 'it_approver_id');
+        return $this->belongsTo(\App\User::class, 'it_approver_id');
     }
 
     public function busApprover()
     {
-        return $this->belongsTo('App\User', 'bus_approver_id');
+        return $this->belongsTo(\App\User::class, 'bus_approver_id');
     }
 
     public function isItApproved()
@@ -136,17 +136,17 @@ class ChangeTicket extends BaseModel
 
     public function changeApprovals()
     {
-        return $this->hasMany('App\ChangeApproval');
+        return $this->hasMany(\App\ChangeApproval::class);
     }
 
     public function changeOwner()
     {
-        return $this->belongsTo('App\User', 'change_owner_id');
+        return $this->belongsTo(\App\User::class, 'change_owner_id');
     }
 
     public function createdBy()
     {
-        return $this->belongsTo('App\User', 'created_by');
+        return $this->belongsTo(\App\User::class, 'created_by');
     }
 
     public function canEdit()
@@ -162,7 +162,7 @@ class ChangeTicket extends BaseModel
 
     public function auditUnit()
     {
-        return $this->belongsTo('App\AuditUnit', 'audit_unit');
+        return $this->belongsTo(\App\AuditUnit::class, 'audit_unit');
     }
 
     /**

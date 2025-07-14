@@ -229,7 +229,7 @@ class ChangeController extends HelpdeskController
           'urgencyrows' => Urgency::all(),
           'audit_units' => AuditUnit::where('status', 1)->get(),
           'attachments' => $change_ticket->attachments,
-          'woattachments' => Attachment::whereIn('ticketable_id', $change_ticket->workOrders->lists('id')->toArray())->where('ticketable_type', 'App\WorkOrder')->get(),
+          'woattachments' => Attachment::whereIn('ticketable_id', $change_ticket->workOrders->lists('id')->toArray())->where('ticketable_type', \App\WorkOrder::class)->get(),
           ];
         return view('app.change-control.show', $data);
     }
